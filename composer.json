@@ -21,5 +21,12 @@
     "psr-4": {
       "Zhchenxin\\Lock\\": "src/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Zhchenxin\\Lock\\LockServiceProvider"
+      ]
+    }
   }
 }
