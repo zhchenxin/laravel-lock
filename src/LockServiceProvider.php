@@ -24,6 +24,9 @@ class LockServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(LockTool::class, function($app) {
+            if (empty($app['config']['lock'])) {
+                $app['config']['lock'] = require __DIR__ . '/../config/lock.php';
+            }
             $config = $app['config']['lock'];
             $name = $config['default'];
             return new LockTool($name, $config[$name]);
