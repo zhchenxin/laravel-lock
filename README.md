@@ -74,7 +74,3 @@ $tool->serial('key', 60, function() {
 });
 
 ```
-
-## License
-
-Intervention Imagecache Class is licensed under the [MIT License](http://opensource.org/licenses/MIT).
