@@ -59,8 +59,12 @@ class RedisLock implements LockInterface
 
     public function unlock($key, $requestId)
     {
-        $res = $this->_eval($this->_getUnlockLua(), 2, [$key, $requestId]);
-        return strtoupper($res) === '1';
+        $ret = $this->_rawCommand('get', [$key]);
+        if ($ret == $requestId) {
+            $this->_rawCommand('del', [$key]);
+            return true;
+        }
+        return false;
     }
 
     private function _rawCommand($command, array $arguments)
@@ -70,26 +74,6 @@ class RedisLock implements LockInterface
         } else {
             return $this->client->$command(...$arguments);
         }
-    }
-
-    private function _eval($lua, $numkeys, $arguments)
-    {
-        if (get_class($this->client) == \Redis::class) {
-            return $this->client->eval($lua, $arguments, $numkeys);
-        } else {
-            return $this->client->eval($lua, $numkeys, ...$arguments);
-        }
-    }
-
-    private function _getUnlockLua()
-    {
-        return <<<'LUA'
-if redis.call('get', KEYS[1]) == KEYS[2] then 
-    return redis.call('del', KEYS[1]) 
-else 
-    return 0 
-end
-LUA;
     }
 
     /**
