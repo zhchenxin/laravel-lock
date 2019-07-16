@@ -17,7 +17,6 @@ interface LockInterface
      * 释放锁
      * @param string $key        锁名称
      * @param string $requestId  锁id
-     * @return bool 是否获取到锁
      */
     public function unlock($key, $requestId);
 }

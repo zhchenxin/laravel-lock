@@ -34,11 +34,10 @@ class LockTool
      * 释放锁
      * @param string $key 锁名称
      * @param string $requestId 一个随机数, 与获取锁时的参数相同
-     * @return bool 是否释放成功
      */
     public function unlock($key, $requestId)
     {
-        return $this->driver->unlock($key, $requestId);
+        $this->driver->unlock($key, $requestId);
     }
 
     /**
